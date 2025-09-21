@@ -40,12 +40,18 @@ public class AVLTree<T extends Comparable<T>> {
         if (node == null) {
             return new AVLNode<>(key);
         }
+
+        System.out.println("Comparando (key): '" + key + "' com (node.getKey()): '" + node.getKey() + "'");
+
         int cmp = key.compareTo(node.getKey());
         if (cmp < 0) {
             node.left = inserirRecursivo(node.left, key);
         } else if (cmp > 0) {
             node.right = inserirRecursivo(node.right, key);
-        } else return node; // duplicata: ignorar <- TODO: aumentar a frequencia caso haja duplicata (ver implementacao do array)
+        } else {
+            node.incrementFrequency(1);
+            return node; // duplicata: ignorar <- TODO: aumentar a frequencia caso haja duplicata (ver implementacao do array)
+        }
 
         atualizarAltura(node);
         return rebalancar(node);

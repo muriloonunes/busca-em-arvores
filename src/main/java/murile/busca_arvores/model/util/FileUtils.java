@@ -24,9 +24,8 @@ public class FileUtils {
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivoSelecionado))) {
             String linha;
             while ((linha = reader.readLine()) != null) {
-                //linha.split retorna um array com as palavras separadas
-                for (String palavra : linha.split(" ")) {
-                    adicionarPalavra(palavra, arrayPalavras);
+                for (String palavra : linha.split("\\s+")) {
+                    adicionarPalavra(palavra, arrayPalavras, avlTree, tree);
                 }
             }
         } catch (Exception e) {
@@ -34,12 +33,14 @@ public class FileUtils {
         }
     }
 
-    private void adicionarPalavra(String palavra, ArrayPalavras<String> arrayPalavras) {
+    private void adicionarPalavra(String palavra, ArrayPalavras<String> arrayPalavras, AVLTree<String> avlTree, Tree<String> tree) {
         String newInput = StringUtils.limparPalavra(palavra);
-        if (!newInput.isEmpty()) {
+
+        if (newInput != null && !newInput.isEmpty()) {
             System.out.println(newInput);
             arrayPalavras.adicionarPalavra(newInput);
-            //TODO adicionar palavra nas arvores tambem
+            avlTree.inserir(newInput);
+            tree.inserir(newInput);
         }
     }
 }

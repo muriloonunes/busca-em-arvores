@@ -44,7 +44,10 @@ public class Tree<T extends Comparable<T>> {
             node.left = inserirRecursivo(node.left, key);
         } else if (cmp > 0) {
             node.right = inserirRecursivo(node.right, key);
+        }else {
+            node.aumentarFrequencia();
         }
+
         //TODO: aumentar a frequencia caso haja duplicata (ver implementacao do array)
         return node;
     }
