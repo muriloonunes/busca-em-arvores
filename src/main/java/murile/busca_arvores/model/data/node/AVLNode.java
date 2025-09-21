@@ -26,7 +26,7 @@ public class AVLNode<T extends Comparable<T>> extends TreeNode<T> {
 
     public int getFrequency() {return frequency;}
 
-    public void incrementFrequency(int frequency) {this.frequency++;}
+    public void incrementFrequency() {this.frequency++;}
 
     public int getHeight() {
         return height;
