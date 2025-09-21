@@ -8,25 +8,13 @@ package murile.busca_arvores.model.data.node;
  * @param <T> Tipo da chave, que deve implementar Comparable para permitir ordenação.
  */
 public class AVLNode<T extends Comparable<T>> extends TreeNode<T> {
-    public T key;
     public AVLNode<T> left, right;
-    private int height, frequency;
-
+    private int height;
 
     public AVLNode(T key) {
         super(key);
         this.height = 1;
-        this.frequency = 1;
     }
-
-    @Override
-    public T getKey() {return key;}
-
-    public void setKey(T key) {this.key = key;}
-
-    public int getFrequency() {return frequency;}
-
-    public void incrementFrequency(int frequency) {this.frequency++;}
 
     public int getHeight() {
         return height;
