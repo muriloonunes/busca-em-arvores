@@ -214,10 +214,37 @@ public class AVLTree<T extends Comparable<T>> {
         emOrdemRecursivo(node.right, sb);
     }
 
+    public AVLNode<T> getRoot() {
+        return root;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         emOrdemRecursivo(root, sb);
         return sb.toString();
+    }
+
+    /**
+     * Metodo de debug - remover depois
+     */
+    public void imprimirArvore() {
+        imprimirArvoreRecursiva(root, "", true);
+    }
+
+    private void imprimirArvoreRecursiva(AVLNode<T> node, String prefixo, boolean ehUltimo) {
+        if (node != null) {
+            System.out.println(prefixo + (ehUltimo ? "└── " : "├── ") + node.getKey());
+
+            String novoPrefixo = prefixo + (ehUltimo ? "    " : "│   ");
+
+            boolean temFilhoEsquerdo = node.left != null;
+            boolean temFilhoDireito = node.right != null;
+
+            if (temFilhoEsquerdo || temFilhoDireito) {
+                imprimirArvoreRecursiva(node.left, novoPrefixo, !temFilhoDireito);
+                imprimirArvoreRecursiva(node.right, novoPrefixo, true);
+            }
+        }
     }
 }

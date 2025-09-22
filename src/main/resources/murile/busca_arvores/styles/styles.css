@@ -74,3 +74,14 @@
     -fx-text-fill: #6b7280;
     -fx-font-size: 13px;
 }
+
+.tree-view {
+    -fx-font-family: "Consolas", "Menlo", "Monaco", "Courier New", monospace;
+    -fx-font-size: 13px;
+    -fx-control-inner-background: #f3f4f6;
+    -fx-background-insets: 0;
+    -fx-background-radius: 10px;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 10px;
+    -fx-padding: 12px;
+}

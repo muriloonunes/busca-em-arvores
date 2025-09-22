@@ -3,8 +3,11 @@ package murile.busca_arvores.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import murile.busca_arvores.model.data.node.TreeNode;
 import murile.busca_arvores.model.data.structures.AVLTree;
 import murile.busca_arvores.model.data.structures.ArrayPalavras;
 import murile.busca_arvores.model.data.structures.Tree;
@@ -25,6 +28,10 @@ public class MainController {
     private Label selecioneArquivoLabel;
     @FXML
     private TextArea outputArea;
+    @FXML
+    private TreeView<String> treeView;
+    @FXML
+    private TreeView<String> avlTreeView;
     private Stage stage;
     private File arquivoSelecionado;
     FileUtils fileUtils = new FileUtils();
@@ -85,6 +92,14 @@ public class MainController {
         resultado.append("FREQUÊNCIA DAS PALAVRAS\n\n");
         resultado.append(arrayPalavras);
 
+        TreeItem<String> treeRootItem = construirTreeView(tree.getRoot());
+        treeView.setRoot(treeRootItem);
+
+        TreeItem<String> avlRootItem = construirTreeView(avlTree.getRoot());
+        avlTreeView.setRoot(avlRootItem);
+
+        avlTree.imprimirArvore(); //TODO remover depois pq é so um debug
+
         outputArea.setText(resultado.toString());
     }
 
@@ -97,5 +112,28 @@ public class MainController {
         arquivoSelecionadoLabel.setText("Nenhum arquivo selecionado");
         arquivoSelecionadoLabel.setStyle("");
         selecioneArquivoLabel.setStyle("");
+    }
+
+    private TreeItem<String> construirTreeView(TreeNode<String> node) {
+        if (node == null) {
+            return null;
+        }
+
+        String texto = node.getKey() + " - Frequência: " + node.getFrequencia();
+        TreeItem<String> item = new TreeItem<>(texto);
+
+        TreeItem<String> leftChild = construirTreeView(node.left);
+        TreeItem<String> rightChild = construirTreeView(node.right);
+
+        if (leftChild != null) {
+            item.getChildren().add(leftChild);
+        }
+        if (rightChild != null) {
+            item.getChildren().add(rightChild);
+        }
+
+        item.setExpanded(true);
+
+        return item;
     }
 }

@@ -60,6 +60,10 @@ public class Tree<T extends Comparable<T>> {
         return metricas;
     }
 
+    public TreeNode<T> getRoot() {
+        return root;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

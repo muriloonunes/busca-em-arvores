@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
@@ -27,9 +28,15 @@
   </VBox>
 
   <!-- Seção: Resultados -->
-  <VBox spacing="12" styleClass="card">
+  <VBox spacing="12" styleClass="card" VBox.vgrow="ALWAYS">
     <Label styleClass="h2" text="Resultados da Análise" />
-    <TextArea fx:id="outputArea" editable="false" prefRowCount="16" styleClass="output" wrapText="true" />
+      <HBox spacing="10.0" VBox.vgrow="ALWAYS">
+         <children>
+          <TextArea fx:id="outputArea" editable="false" prefRowCount="16" styleClass="output" wrapText="true" HBox.hgrow="ALWAYS" />
+            <TreeView fx:id="treeView" styleClass="tree-view" HBox.hgrow="ALWAYS" />
+            <TreeView fx:id="avlTreeView" layoutX="339.0" layoutY="10.0" styleClass="tree-view" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
   </VBox>
 
 </VBox>
