@@ -86,7 +86,6 @@ public class AVLTree<T extends Comparable<T>> {
         x.right = T2;
         metricas.addAtribuicoes(2); // Contagem das duas atribuições
 
-        // Atualiza as alturas
         atualizarAltura(x);
         atualizarAltura(y);
 

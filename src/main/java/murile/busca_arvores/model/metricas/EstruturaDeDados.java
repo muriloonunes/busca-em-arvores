@@ -1,7 +1,6 @@
 package murile.busca_arvores.model.metricas;
 
 public class EstruturaDeDados {
-    // Crie esta classe em um novo arquivo
     private String nome;
     private Metricas metricas;
 

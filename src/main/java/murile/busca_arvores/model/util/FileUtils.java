@@ -51,28 +51,4 @@ public class FileUtils {
             tree.getMetricas().addTempo(System.nanoTime() - inicioTree);
         }
     }
-
-    //public void lerArquivo(File arquivoSelecionado, ArrayPalavras<String> arrayPalavras, AVLTree<String> avlTree, Tree<String> tree) {
-    //        try (BufferedReader reader = new BufferedReader(new FileReader(arquivoSelecionado))) {
-    //            String linha;
-    //            while ((linha = reader.readLine()) != null) {
-    //                for (String palavra : linha.split("\\s+")) {
-    //                    adicionarPalavra(palavra, arrayPalavras, avlTree, tree);
-    //                }
-    //            }
-    //        } catch (Exception e) {
-    //            e.printStackTrace();
-    //        }
-    //    }
-    //
-    //    private void adicionarPalavra(String palavra, ArrayPalavras<String> arrayPalavras, AVLTree<String> avlTree, Tree<String> tree) {
-    //        String newInput = StringUtils.limparPalavra(palavra);
-    //
-    //        if (newInput != null && !newInput.isEmpty()) {
-    //            System.out.println(newInput);
-    //            arrayPalavras.adicionarPalavra(newInput);
-    //            avlTree.inserir(newInput);
-    //            tree.inserir(newInput);
-    //        }
-    //    }
 }
