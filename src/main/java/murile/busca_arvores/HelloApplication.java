@@ -12,7 +12,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 810, 610);
+        Scene scene = new Scene(fxmlLoader.load());
 
         MainController controller = fxmlLoader.getController();
         stage.setTitle("Busca em Arvores");

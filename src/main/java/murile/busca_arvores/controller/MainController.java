@@ -7,6 +7,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import murile.busca_arvores.model.data.node.AVLNode;
 import murile.busca_arvores.model.data.node.TreeNode;
 import murile.busca_arvores.model.data.structures.AVLTree;
 import murile.busca_arvores.model.data.structures.ArrayPalavras;
@@ -98,8 +99,6 @@ public class MainController {
         TreeItem<String> avlRootItem = construirTreeView(avlTree.getRoot());
         avlTreeView.setRoot(avlRootItem);
 
-        avlTree.imprimirArvore(); //TODO remover depois pq é so um debug
-
         outputArea.setText(resultado.toString());
     }
 
@@ -132,8 +131,28 @@ public class MainController {
             item.getChildren().add(rightChild);
         }
 
-        item.setExpanded(true);
+        return item;
+    }
+
+    private TreeItem<String> construirTreeView(AVLNode<String> node) {
+        if (node == null) {
+            return null;
+        }
+
+        String texto = node.getKey() + " - Frequência: " + node.getFrequencia();
+        TreeItem<String> item = new TreeItem<>(texto);
+
+        TreeItem<String> leftChild = construirTreeView(node.left);
+        TreeItem<String> rightChild = construirTreeView(node.right);
+
+        if (leftChild != null) {
+            item.getChildren().add(leftChild);
+        }
+        if (rightChild != null) {
+            item.getChildren().add(rightChild);
+        }
 
         return item;
     }
+
 }

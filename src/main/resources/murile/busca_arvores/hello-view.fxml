@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="mainContainer" spacing="16" styleClass="container" stylesheets="@styles/styles.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="murile.busca_arvores.controller.MainController">
+<VBox fx:id="mainContainer" spacing="16" styleClass="container" stylesheets="@styles/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="murile.busca_arvores.controller.MainController">
 
   <padding>
     <Insets bottom="24" left="16" right="16" top="24" />
@@ -26,17 +26,22 @@
 
     <Label fx:id="selecioneArquivoLabel" styleClass="help" text="Selecione apenas arquivos .txt" />
   </VBox>
+    <HBox spacing="10.0" styleClass="card" VBox.vgrow="ALWAYS">
+        <VBox spacing="3" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+            <Label styleClass="h2" text="Resultados da Análise"/>
+            <TextArea fx:id="outputArea" editable="false" prefRowCount="16" styleClass="output" wrapText="true"
+                      HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS"/>
+        </VBox>
 
-  <!-- Seção: Resultados -->
-  <VBox spacing="12" styleClass="card" VBox.vgrow="ALWAYS">
-    <Label styleClass="h2" text="Resultados da Análise" />
-      <HBox spacing="10.0" VBox.vgrow="ALWAYS">
-         <children>
-          <TextArea fx:id="outputArea" editable="false" prefRowCount="16" styleClass="output" wrapText="true" HBox.hgrow="ALWAYS" />
-            <TreeView fx:id="treeView" styleClass="tree-view" HBox.hgrow="ALWAYS" />
-            <TreeView fx:id="avlTreeView" layoutX="339.0" layoutY="10.0" styleClass="tree-view" HBox.hgrow="ALWAYS" />
-         </children>
-      </HBox>
-  </VBox>
+        <VBox spacing="3" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+            <Label styleClass="h2" text="Árvore Binária"/>
+            <TreeView fx:id="treeView" styleClass="tree-view" VBox.vgrow="ALWAYS"/>
+        </VBox>
+
+        <VBox spacing="3" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+            <Label styleClass="h2" text="Árvore AVL"/>
+            <TreeView fx:id="avlTreeView" styleClass="tree-view" VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </HBox>
 
 </VBox>
