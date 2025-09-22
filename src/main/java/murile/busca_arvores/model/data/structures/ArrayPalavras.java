@@ -8,21 +8,22 @@ import java.util.List;
 
 public class ArrayPalavras<T extends Comparable<T>> {
     public List<Node<T>> palavras;
+    private final Metricas metricas;
 
     public ArrayPalavras() {
         this.palavras = new ArrayList<>();
+        this.metricas = new Metricas();
     }
 
-    public void adicionarPalavra(T palavra, Metricas metricas) {
-        int index = buscaBinaria(palavra, 0, palavras.size() - 1, metricas); // Passe as métricas aqui
+    public void adicionarPalavra(T palavra) {
+        int index = buscaBinaria(palavra, 0, palavras.size() - 1);
         if (index >= 0) {
             palavras.get(index).aumentarFrequencia();
         } else {
             int indexInserir = -index - 1;
             Node<T> novaPalavra = new Node<>(palavra);
-            metricas.addAtribuicoes(1); // Nova atribuição (criação do nó)
             palavras.add(indexInserir, novaPalavra);
-            metricas.addAtribuicoes(1); // Nova atribuição (inserção na lista)
+            metricas.addAtribuicoes(1); // inserção na lista
         }
     }
 
@@ -40,7 +41,7 @@ public class ArrayPalavras<T extends Comparable<T>> {
     //        }
     //    }
 
-    private int buscaBinaria(T novaPalavra, int min, int max, Metricas metricas) { // Receba as métricas
+    private int buscaBinaria(T novaPalavra, int min, int max) { // usa métricas internas
         if (max < min) {
             return -(min) - 1;
         }
@@ -54,9 +55,9 @@ public class ArrayPalavras<T extends Comparable<T>> {
         if (comparacao == 0) {
             return index;
         } else if (comparacao < 0) {
-            return buscaBinaria(novaPalavra, index + 1, max, metricas);
+            return buscaBinaria(novaPalavra, index + 1, max);
         } else {
-            return buscaBinaria(novaPalavra, min, index - 1, metricas);
+            return buscaBinaria(novaPalavra, min, index - 1);
         }
     }
 
@@ -87,17 +88,16 @@ public class ArrayPalavras<T extends Comparable<T>> {
     //        }
     //    }
 
-    public String toStringFrequencias() {
+    public Metricas getMetricas() {
+        return metricas;
+    }
+
+    @Override
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         for (Node<T> node : palavras) {
             sb.append(node.getKey()).append(": ").append(node.getFrequencia()).append("\n");
         }
         return sb.toString();
-    }
-
-
-    @Override
-    public String toString() {
-        return palavras.toString();
     }
 }

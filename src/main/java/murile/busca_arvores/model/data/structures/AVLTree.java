@@ -3,8 +3,6 @@ package murile.busca_arvores.model.data.structures;
 import murile.busca_arvores.model.data.node.AVLNode;
 import murile.busca_arvores.model.metricas.Metricas;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -18,13 +16,18 @@ import java.util.Objects;
 //TODO talvez extrair pra uma classe abstrata/interface?
 public class AVLTree<T extends Comparable<T>> {
     private AVLNode<T> root;
+    private final Metricas metricas = new Metricas();
 
-    public void inserir(T key, Metricas metricas) {
-        Objects.requireNonNull(key);
-        root = inserirRecursivo(root, key, metricas);
+    public Metricas getMetricas() {
+        return metricas;
     }
 
-    private AVLNode<T> inserirRecursivo(AVLNode<T> node, T key, Metricas metricas) {
+    public void inserir(T key) {
+        Objects.requireNonNull(key);
+        root = inserirRecursivo(root, key);
+    }
+
+    private AVLNode<T> inserirRecursivo(AVLNode<T> node, T key) {
         if (node == null) {
             metricas.addAtribuicoes(1);
             return new AVLNode<>(key);
@@ -34,16 +37,16 @@ public class AVLTree<T extends Comparable<T>> {
         metricas.addComparacoes(1);
 
         if (cmp < 0) {
-            node.left = inserirRecursivo(node.left, key, metricas);
+            node.left = inserirRecursivo(node.left, key);
         } else if (cmp > 0) {
-            node.right = inserirRecursivo(node.right, key, metricas);
+            node.right = inserirRecursivo(node.right, key);
         } else {
-            node.incrementFrequency(1);
+            node.aumentarFrequencia();
             return node;
         }
 
         atualizarAltura(node);
-        return rebalancar(node, metricas);
+        return rebalancar(node);
     }
 
     //**
@@ -85,23 +88,6 @@ public class AVLTree<T extends Comparable<T>> {
     //        return rebalancar(node);
     //    }
 
-    /**
-     * Verifica se um item existe na árvore AVL.
-     *
-     * @param key item a ser buscado
-     * @return true se existir, false caso contrário
-     */
-    public boolean contem(T key) {
-        Objects.requireNonNull(key);
-        AVLNode<T> cur = root;
-        while (cur != null) {
-            int cmp = key.compareTo(cur.getKey());
-            if (cmp == 0) return true;
-            cur = (cmp < 0) ? cur.left : cur.right;
-        }
-        return false;
-    }
-
     // ---------- Métodos auxiliares ----------
     private int altura(AVLNode<T> n) {
         return n == null ? 0 : n.getHeight();
@@ -115,7 +101,7 @@ public class AVLTree<T extends Comparable<T>> {
         return n == null ? 0 : altura(n.left) - altura(n.right);
     }
 
-    private AVLNode<T> rotacaoDireita(AVLNode<T> y, Metricas metricas) {
+    private AVLNode<T> rotacaoDireita(AVLNode<T> y) {
         AVLNode<T> x = y.left;
         AVLNode<T> T2 = x.right;
 
@@ -130,7 +116,7 @@ public class AVLTree<T extends Comparable<T>> {
     }
 
 
-    private AVLNode<T> rotacaoEsquerda(AVLNode<T> x, Metricas metricas) {
+    private AVLNode<T> rotacaoEsquerda(AVLNode<T> x) {
         AVLNode<T> y = x.right;
         AVLNode<T> T2 = y.left;
 
@@ -146,21 +132,21 @@ public class AVLTree<T extends Comparable<T>> {
         return y;
     }
 
-    private AVLNode<T> rebalancar(AVLNode<T> node, Metricas metricas) {
+    private AVLNode<T> rebalancar(AVLNode<T> node) {
         int balanceamento = fatorBalanceamento(node);
 
         if (balanceamento > 1) {
             if (fatorBalanceamento(node.left) < 0) {
-                node.left = rotacaoEsquerda(node.left, metricas);
+                node.left = rotacaoEsquerda(node.left);
             }
-            return rotacaoDireita(node, metricas);
+            return rotacaoDireita(node);
         }
 
         if (balanceamento < -1) {
             if (fatorBalanceamento(node.right) > 0) {
-                node.right = rotacaoDireita(node.right, metricas);
+                node.right = rotacaoDireita(node.right);
             }
-            return rotacaoEsquerda(node, metricas);
+            return rotacaoEsquerda(node);
         }
 
         return node;
@@ -215,44 +201,23 @@ public class AVLTree<T extends Comparable<T>> {
     //    }
 
     /**
-     * Retorna uma lista ordenada dos itens (percurso em ordem).
+     * Realiza o percurso em ordem na árvore AVL, adicionando ao StringBuilder
+     * cada chavSe e sua respectiva frequência no formato "chave: frequência".
      *
-     * @return lista de itens ordenados
+     * @param node nó atual da árvore
+     * @param sb StringBuilder para acumular o resultado
      */
-    public List<T> emOrdem() {
-        List<T> res = new ArrayList<>();
-        emOrdemRecursivo(root, res);
-        return res;
-    }
-
-    /**
-     * Métdo recursivo para percurso em ordem.
-     *
-     * @param node      nó atual
-     * @param resultado lista de itens
-     */
-    private void emOrdemRecursivo(AVLNode<T> node, List<T> resultado) {
+    private void emOrdemRecursivo(AVLNode<T> node, StringBuilder sb) {
         if (node == null) return;
-        emOrdemRecursivo(node.left, resultado);
-        resultado.add(node.getKey());
-        emOrdemRecursivo(node.right, resultado);
-    }
-
-    public String toStringFrequencias() {
-        StringBuilder sb = new StringBuilder();
-        emOrdemRecursivoFrequencias(root, sb);
-        return sb.toString();
-    }
-
-    private void emOrdemRecursivoFrequencias(AVLNode<T> node, StringBuilder sb) {
-        if (node == null) return;
-        emOrdemRecursivoFrequencias(node.left, sb);
-        sb.append(node.getKey()).append(": ").append(node.getFrequency()).append("\n");
-        emOrdemRecursivoFrequencias(node.right, sb);
+        emOrdemRecursivo(node.left, sb);
+        sb.append(node.getKey()).append(": ").append(node.getFrequencia()).append("\n");
+        emOrdemRecursivo(node.right, sb);
     }
 
     @Override
     public String toString() {
-        return emOrdem().toString();
+        StringBuilder sb = new StringBuilder();
+        emOrdemRecursivo(root, sb);
+        return sb.toString();
     }
 }

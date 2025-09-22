@@ -1,9 +1,8 @@
 package murile.busca_arvores.model.util;
 
 import murile.busca_arvores.model.data.structures.AVLTree;
-import murile.busca_arvores.model.data.structures.Tree;
 import murile.busca_arvores.model.data.structures.ArrayPalavras;
-import murile.busca_arvores.model.metricas.Metricas;
+import murile.busca_arvores.model.data.structures.Tree;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,13 +20,13 @@ public class FileUtils {
         }
     }
 
-    public void lerArquivo(File arquivoSelecionado, ArrayPalavras<String> arrayPalavras, AVLTree<String> avlTree, Tree<String> tree, Metricas metricasArray, Metricas metricasAVL, Metricas metricasTree) {
+    public void lerArquivo(File arquivoSelecionado, ArrayPalavras<String> arrayPalavras, AVLTree<String> avlTree, Tree<String> tree) {
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivoSelecionado))) {
             String linha;
 
             while ((linha = reader.readLine()) != null) {
                 for (String palavra : linha.split("\\s+")) {
-                    adicionarPalavra(palavra, arrayPalavras, avlTree, tree, metricasArray, metricasAVL, metricasTree);
+                    adicionarPalavra(palavra, arrayPalavras, avlTree, tree);
                 }
             }
         } catch (Exception e) {
@@ -35,21 +34,21 @@ public class FileUtils {
         }
     }
 
-    private void adicionarPalavra(String palavra, ArrayPalavras<String> arrayPalavras, AVLTree<String> avlTree, Tree<String> tree, Metricas metricasArray, Metricas metricasAVL, Metricas metricasTree) {
+    private void adicionarPalavra(String palavra, ArrayPalavras<String> arrayPalavras, AVLTree<String> avlTree, Tree<String> tree) {
         String newInput = StringUtils.limparPalavra(palavra);
 
         if (newInput != null && !newInput.isEmpty()) {
             long inicioArray = System.nanoTime();
-            arrayPalavras.adicionarPalavra(newInput, metricasArray);
-            metricasArray.addTempo(System.nanoTime() - inicioArray);
+            arrayPalavras.adicionarPalavra(newInput);
+            arrayPalavras.getMetricas().addTempo(System.nanoTime() - inicioArray);
 
             long inicioAVL = System.nanoTime();
-            avlTree.inserir(newInput, metricasAVL);
-            metricasAVL.addTempo(System.nanoTime() - inicioAVL);
+            avlTree.inserir(newInput);
+            avlTree.getMetricas().addTempo(System.nanoTime() - inicioAVL);
 
             long inicioTree = System.nanoTime();
-            tree.inserir(newInput, metricasTree);
-            metricasTree.addTempo(System.nanoTime() - inicioTree);
+            tree.inserir(newInput);
+            tree.getMetricas().addTempo(System.nanoTime() - inicioTree);
         }
     }
 
